@@ -15,6 +15,7 @@ import { api } from "../utils/api";
 import { resizeImage } from "../utils/image";
 import AlertModal from "./shared/AlertModal";
 import type { District } from "@prisma/client";
+import FormHook from "./FormHook";
 
 const Select = dynamic(() => import("react-select"), {
   ssr: true,
@@ -280,6 +281,7 @@ const AddSurauForm: FC<AddSurauFormProps> = ({ setOpen }) => {
                       >
                         Surau Name
                       </label>
+
                       <div className="mt-1 rounded-md shadow-sm">
                         <input
                           type="text"
@@ -608,6 +610,10 @@ const AddSurauForm: FC<AddSurauFormProps> = ({ setOpen }) => {
           </div>
         </div>
       </div>
+
+      {/* <div>
+        <FormHook />
+      </div> */}
     </>
   );
 };
