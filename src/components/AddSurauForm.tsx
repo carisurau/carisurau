@@ -573,9 +573,9 @@ const AddSurauForm: FC<AddSurauFormProps> = ({ setOpen }) => {
         </div>
       </div>
 
-      {/* <div>
+      <div>
         <FormHook />
-      </div> */}
+      </div>
     </>
   );
 };

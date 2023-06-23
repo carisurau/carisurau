@@ -7,7 +7,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import {
+  useForm,
+  SubmitHandler,
+  Controller,
+  useFieldArray,
+} from "react-hook-form";
 import { api } from "../utils/api";
 import { useS3Upload } from "next-s3-upload";
 import type { District } from "@prisma/client";
@@ -19,16 +24,11 @@ const Select = dynamic(() => import("react-select"), {
 type Inputs = {
   surauName: string;
   state: any;
+  firstName: string;
 };
 
 const FormHook = () => {
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>();
-
+  // Old state
   const [loading, setLoading] = useState(false);
   const [choosenState, setChoosenState] = useState("");
   const [choosenDistrict, setChoosenDistrict] = useState("");
@@ -37,6 +37,20 @@ const FormHook = () => {
   >([]);
   const [findMallChecked, setFindMallChecked] = useState(false);
   const [findMallForm, setFindMallForm] = useState(false);
+
+  // Hook form state
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<Inputs>();
+
+  const { fields, append } = useFieldArray({
+    control,
+    name: "test",
+  });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
@@ -73,7 +87,7 @@ const FormHook = () => {
   };
 
   return (
-    <div className="overflow-auto">
+    <div className="h-screen overflow-auto">
       <div className="md:grid md:grid-cols-2 md:gap-6">
         <div className="md:col-span-1">
           <div className="px-4 sm:px-0">
@@ -102,7 +116,6 @@ const FormHook = () => {
                       <input
                         type="text"
                         className="block w-full flex-1 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        {...register("surauName", { required: true })}
                       />
                     </div>
                     {errors.surauName && (
